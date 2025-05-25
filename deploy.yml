@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clients-api
+  namespace: clients-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: clients-api
+  template:
+    metadata:
+      labels:
+        app: clients-api
+    spec:
+      containers:
+        - name: clients-api
+          image: publicrepo/clients-api:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: MONGO_URI
+              value: mongodb://root:example@mongodb:27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clients-api
+  namespace: clients-api
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 3000
+  selector:
+    app: clients-api
