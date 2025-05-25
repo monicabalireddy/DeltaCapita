@@ -38,6 +38,6 @@ jobs:
 
       - name: Deploy to EKS
         run: |
-          kubectl apply -f k8s/clients-api-deployment.yml
-          kubectl apply -f k8s/clients-api-service.yml
-          kubectl apply -f k8s/clients-api-ingress.yml
+          kubectl apply -f clients-api-deployment.yml
+          kubectl apply -f clients-api-service.yml
+          kubectl apply -f clients-api-ingress.yml
