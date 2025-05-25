@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: clients-api
+  namespace: clients-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: clients-api
+  template:
+    metadata:
+      labels:
+        app: clients-api
+    spec:
+      containers:
+      - name: clients-api
+        image: hashicorp/http-echo
+        args:
+          - "-text=Hello from Clients API!"
+        ports:
+          - containerPort: 5678

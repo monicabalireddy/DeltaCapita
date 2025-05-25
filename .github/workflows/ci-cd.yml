@@ -1,47 +1,47 @@
-name: CI/CD Pipeline
+# name: CI/CD Pipeline
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+# on:
+#   push:
+#     branches: [ main ]
+#   pull_request:
+#     branches: [ main ]
 
-jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-      - name: Install dependencies
-        run: npm install
-      - name: Run tests
-        run: npm test
+# jobs:
+#   build-and-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Set up Node.js
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: '18'
+#       - name: Install dependencies
+#         run: npm install
+#       - name: Run tests
+#         run: npm test
 
-  # ...existing code...
-  deploy:
-    needs: build-and-test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: Update kubeconfig for EKS
-        run: aws eks update-kubeconfig --name <your-eks-cluster-name> --region ${{ secrets.AWS_REGION }}
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: 'latest'
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f k8s/namespace.yaml
-          kubectl apply -f k8s/mongodb.yaml
-          kubectl apply -f k8s/clients-api.yaml
-          kubectl apply -f k8s/cert-manager.yaml
-          kubectl apply -f k8s/ingress.yaml
+#   # ...existing code...
+#   deploy:
+#     needs: build-and-test
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v3
+#       - name: Configure AWS credentials
+#         uses: aws-actions/configure-aws-credentials@v4
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-1
+#       - name: Update kubeconfig for EKS
+#         run: aws eks update-kubeconfig --name <your-eks-cluster-name> --region ${{ secrets.AWS_REGION }}
+#       - name: Set up kubectl
+#         uses: azure/setup-kubectl@v3
+#         with:
+#           version: 'latest'
+#       - name: Deploy to Kubernetes
+#         run: |
+#           kubectl apply -f k8s/namespace.yaml
+#           kubectl apply -f k8s/mongodb.yaml
+#           kubectl apply -f k8s/clients-api.yaml
+#           kubectl apply -f k8s/cert-manager.yaml
+#           kubectl apply -f k8s/ingress.yaml
